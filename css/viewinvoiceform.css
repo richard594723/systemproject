@@ -1,0 +1,46 @@
+.invoice-container {
+    width: 600px;
+}
+
+.title-word {
+    text-align: center;
+}
+
+.invoice-word {
+    font-family: 'Poppins', sans-serif;
+    font-size: 1.1em;
+    line-height: 1.7em;
+}
+
+hr {
+    border-top: 3px solid black!important;
+}
+
+.print-chrome-text {}
+
+.print-chrome-title {}
+
+.print-mozilla-text {}
+
+.print-mozilla-title {}
+
+@media print {
+    .print-chrome-text {
+        font-size: 18px;
+        font-weight: bold;
+        font-family: 'Times New Roman';
+        text-align: left!important;
+    }
+    .print-chrome-title {
+        text-align: left !important;
+        font-size: 20px;
+    }
+    .print-mozilla-text {
+        font-size: 70px;
+        font-family: 'Times New Roman';
+    }
+    .print-mozilla-title {
+        font-size: 70px;
+        text-align: left !important;
+    }
+}

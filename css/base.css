@@ -1,0 +1,14 @@
+#content {
+    padding-top: 150px;
+    display: flex;
+}
+
+html,
+body {
+    height: 100%;
+    background-color: #fff;
+}
+
+#menubar {
+    height: 0px;
+}

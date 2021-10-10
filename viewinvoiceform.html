@@ -1,0 +1,112 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Customer Management</title>
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="./css/fontawesome/css/fontawesome.css">
+    <link rel="stylesheet" type="text/css" href="./css/fontawesome/css/brands.css">
+    <link rel="stylesheet" type="text/css" href="./css/fontawesome/css/solid.css">
+    <link rel="stylesheet" type="text/css" href="css/datatable.css">
+    <link rel="stylesheet" type="text/css" href="css/base.css">
+    <link rel="stylesheet" type="text/css" href="css/viewinvoiceform.css">
+
+</head>
+
+<body class="receipt">
+
+    <div class="container-fluid">
+        <div id="menubar"></div>
+        <div id="content" class="container-fluid m-0">
+            <div class="container invoice-container">
+                <div class="d-flex flex-column">
+
+
+                    <div class="title d-flex flex-column">
+                        <h3 class="title-word">1 & 1 Trading Company</h3>
+                        <h3 class="title-word">No.13,Lane 1, Brooke Drive</h3>
+                        <h3 class="title-word">BUSINESS HOUR : 9 AM TO 7 PM</h3>
+                        <h3 class="title-word">Tel : 084-321471</h3>
+                        <br/>
+                        <h2 class="title-word"><u>TRADE IN BILL</u></h2>
+                        <hr class="col-12 p-0" />
+                    </div>
+
+                    <div class="bill-info">
+                        <div class="row pb-4">
+                            <p class="invoice-word d-inline-block m-0 col-12 col-sm-4">Bill No : </p>
+                            <p id="billno" name="billno" class="d-inline-block col-12 col-sm-8 m-0"></p>
+                        </div>
+                        <div class="row pb-4">
+                            <p class="invoice-word d-inline-block m-0 col-12 col-sm-4">Bill Date/Time : </p>
+                            <p id="billdatetime" name="billdatetime" class=" d-inline-block col-12 col-sm-8 m-0"></p>
+                        </div>
+                        <div class="row">
+                            <p class="invoice-word d-inline-block m-0 col-12 col-sm-4">Expiry Date : </p>
+                            <p id="expirydate" name="expirydate" class=" d-inline-block col-12 col-sm-8"></p>
+                        </div>
+                        <hr/>
+                    </div>
+
+                    <div class="customer-info">
+                        <div class="row pb-4">
+                            <p id="icnumber" class="invoice-word d-inline-block col-12 col-sm-4">IC NUMBER : </p>
+                            <p id="ic" name="ic" class=" d-inline-block col-12 col-sm-8"></p>
+                        </div>
+
+                        <div class="row">
+                            <p class="invoice-word d-inline-block m-0 col-12 col-sm-4">NAME : </p>
+                            <p id="name" name="name" class=" d-inline-block col-12 col-sm-8"></p>
+                        </div>
+                        <hr/>
+                    </div>
+
+                    <div class="phone-info">
+                        <div class="row pb-4">
+                            <p class="invoice-word m-0 d-inline-block col-12 col-sm-4">MODEL : </p>
+                            <p id="model" name="model" class=" d-inline-block col-12 col-sm-8"></p>
+                        </div>
+                        <div class="row pb-4">
+                            <p class="invoice-word m-0 col-12 col-sm-4">IMEI : </p>
+                            <p id="imei" name="imei" class=" d-inline-block col-12 col-sm-8"></p>
+                        </div>
+                        <div class="row pb-4">
+                            <p class="invoice-word m-0 col-12 col-sm-4">PHONE LOCK : </p>
+                            <p id="phonelock" name="phonelock" class="d-inline-block col-12 col-sm-8"></p>
+                        </div>
+                        <div class="row">
+                            <p class="invoice-word m-0 col-12 col-sm-4">AMOUNT : </p>
+                            <p id="amount" name="amount" class="d-inline-block col-12 col-sm-8"></p>
+                        </div>
+                        <hr/>
+                    </div>
+                    <div>
+                        <p class="title-word">Tempoh Satu Bulan Sahaja.</p>
+                        <p class="title-word">Bill Hilang Denda RM50.</p>
+                    </div>
+                    <button type="button" class="btn" onclick="window.print()"><i class="fas fa-print"></i></button>
+
+
+                </div>
+            </div>
+            <div id="footer"></div>
+        </div>
+
+</body>
+<script src="bootstrap/js/jquery.js"></script>
+<script>
+    $(function() {
+        $("#menubar").load("menubar.html");
+
+    });
+</script>
+
+<script src="./bootstrap/js/popper.js"></script>
+<script src="./bootstrap/js/bootstrap.js"></script>
+<script src="./js/datatable.js"></script>
+<script src="./js/viewinvoiceform.js"></script>
+
+
+</html>

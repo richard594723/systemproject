@@ -20,7 +20,9 @@ function viewcustomer() {
         success: function(data) {
             var customerdata = data;
             var table_content = "";
-
+            $('#dtBasicExample').DataTable().clear();
+            $('#dtBasicExample').DataTable().destroy();
+            $(".th-sm").removeClass('bg-dark bg-primary text-white');
 
             for (i = 0; i < customerdata.length; i++) {
                 var gender = "";
@@ -47,7 +49,14 @@ function viewcustomer() {
 
             document.getElementById("table_content").innerHTML = table_content;
 
-            $('#dtBasicExample').DataTable();
+            $('#dtBasicExample').DataTable({
+                columnDefs: [
+                    { targets: 2, width: '25%' },
+                    { targets: 4, width: '15%' },
+                    { targets: 5, width: '30%' },
+                    { targets: 6, width: '20%' }
+                ]
+            });
             $('.dataTables_length').addClass('bs-select');
         },
         error: function(ajaxContext) {
@@ -65,7 +74,10 @@ function viewactivecustomer() {
         success: function(data) {
             var customerdata = data;
             var table_content = "";
-
+            $('#dtBasicExample').DataTable().clear();
+            $('#dtBasicExample').DataTable().destroy();
+            $(".th-sm").removeClass('bg-dark text-white');
+            $(".th-sm").addClass('bg-primary text-white');
             for (i = 0; i < customerdata.length; i++) {
                 var gender = "";
                 var status = "";
@@ -90,7 +102,14 @@ function viewactivecustomer() {
             }
             document.getElementById("table_content").innerHTML = table_content;
 
-            $('#dtBasicExample').DataTable();
+            $('#dtBasicExample').DataTable({
+                columnDefs: [
+                    { targets: 2, width: '25%' },
+                    { targets: 4, width: '15%' },
+                    { targets: 5, width: '30%' },
+                    { targets: 6, width: '20%' }
+                ]
+            });
             $('.dataTables_length').addClass('bs-select');
         },
         error: function(ajaxContext) {
@@ -108,8 +127,9 @@ function viewblacklistcustomer() {
         success: function(data) {
             var customerdata = data;
             var table_content = "";
-
-
+            $('#dtBasicExample').DataTable().clear();
+            $('#dtBasicExample').DataTable().destroy();
+            $('.th-sm').addClass("bg-dark text-white");
             for (i = 0; i < customerdata.length; i++) {
                 var gender = "";
                 var status = "";
@@ -135,7 +155,14 @@ function viewblacklistcustomer() {
 
             document.getElementById("table_content").innerHTML = table_content;
 
-            $('#dtBasicExample').DataTable();
+            $('#dtBasicExample').DataTable({
+                columnDefs: [
+                    { targets: 2, width: '25%' },
+                    { targets: 4, width: '15%' },
+                    { targets: 5, width: '30%' },
+                    { targets: 6, width: '20%' }
+                ]
+            });
             $('.dataTables_length').addClass('bs-select');
         },
         error: function(ajaxContext) {

@@ -37,9 +37,16 @@ function getParameters() {
             document.getElementById("actualamount").value = invoicedata[0]['actualamount'];
             document.getElementById("invoiceid").value = invoicedata[0]['invoiceid'];
             document.getElementById("customerid").value = invoicedata[0]['customerid'];
+            if (invoicedata[0]['status'] == "C") {
+                document.getElementById("status").value = "C";
+            } else if (invoicedata[0]['status'] == "P") {
+                document.getElementById("status").value = "P";
+            } else if (invoicedata[0]['status'] == "V") {
+                document.getElementById("status").value = "V";
+            }
         },
         error: function(ajaxContext) {
-            alert("The action of view specific customer is failed.");
+            alert("The action of view specific invoice is failed.");
 
         }
     });

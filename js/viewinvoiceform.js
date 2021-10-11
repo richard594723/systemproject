@@ -36,7 +36,7 @@ function getParameters() {
 
         },
         error: function(ajaxContext) {
-            alert("The action of view specific customer is failed.");
+            alert("The action of view specific invoice is failed.");
 
         }
     });

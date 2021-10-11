@@ -118,7 +118,17 @@
                                 <p class="invoice-word m-0 col-12 col-lg-2">Actual AMOUNT : </p>
                                 <input id="actualamount" name="actualamount" type="number" step="any" class="form-control d-inline-block col-12 col-lg-10">
                             </div>
+                            <div class="row pb-4">
+                                <div class="col-12 form-item">
+                                    <select id="status" name="status" class="custom-select">
+                                        <option id="statusC" value="C">Complete</option>
+                                        <option id="statusP" value="P">Pending</option>
+                                        <option id="statusV" value="V">Void</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
+
                         <input type="hidden" id="invoiceid" name="invoiceid">
                         <button type="submit" id="btnsubmitinvoice" name="btnsubmitinvoice" class="form-control btn btn-primary col-12 p-0">
                                 Submit

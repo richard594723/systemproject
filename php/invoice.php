@@ -25,7 +25,7 @@ if($_POST['action']=="submitinvoice")
         '".$_POST['phonelock']."',
         '".$_POST['amount']."',
         '".$_POST['actualamount']."',
-        'C'
+        'P'
         )";
         $Result_insertinvoice=mysqli_query($Link,$Sql_insertinvoice);
         if($Result_insertinvoice)
@@ -34,7 +34,7 @@ if($_POST['action']=="submitinvoice")
         }
         else
         {
-            $data_list['Message']=$Sql_insertinvoice;
+            $data_list['Message']="Fail";
         }
 	}
     echo json_encode($data_list);
@@ -43,7 +43,109 @@ if($_POST['action']=="submitinvoice")
 else if($_POST['action']=="viewallinvoice")
 {
     $data_list=array();
-    $Sql_selectallinvoice="Select * FROM tblinvoice";
+    $Sql_selectallinvoice="Select * FROM tblinvoice where status<>'V'";
+    $Result_selectallinvoice=mysqli_query($Link,$Sql_selectallinvoice);
+    if(mysqli_num_rows($Result_selectallinvoice)>0)
+    {
+        for($i=0;$i<mysqli_num_rows($Result_selectallinvoice);$i++)
+        {
+            $row = mysqli_fetch_assoc($Result_selectallinvoice);
+            $data_list[$i]['invoiceid']=$row['invoiceid'];
+            $data_list[$i]['billno']=$row['billno'];
+            $data_list[$i]['billdatetime']=$row['billdatetime'];
+            $data_list[$i]['expirydate']=$row['expirydate'];
+            $data_list[$i]['customerid']=$row['customerid'];
+            $data_list[$i]['model']=$row['model'];
+            $data_list[$i]['imei']=$row['imei'];
+            $data_list[$i]['phonelock']=$row['phonelock'];
+            $data_list[$i]['amount']=$row['amount'];
+            $data_list[$i]['actualamount']=$row['actualamount'];
+            $data_list[$i]['status']=$row['status'];
+            $Sql_selectname="Select ic,name FROM tblcustomer where customerid='".$row['customerid']."'";
+            $Result_selectname=mysqli_query($Link,$Sql_selectname);
+            $row=mysqli_fetch_assoc($Result_selectname);
+            $data_list[$i]['ic']=$row['ic'];
+            $data_list[$i]['name']=$row['name'];
+        }
+        echo json_encode($data_list);
+    }
+    else
+    {
+        echo json_encode("There are no record in the database.");
+    }    
+}
+else if($_POST['action']=="viewallpendinginvoice")
+{
+    $data_list=array();
+    $Sql_selectallinvoice="Select * FROM tblinvoice where status='P'";
+    $Result_selectallinvoice=mysqli_query($Link,$Sql_selectallinvoice);
+    if(mysqli_num_rows($Result_selectallinvoice)>0)
+    {
+        for($i=0;$i<mysqli_num_rows($Result_selectallinvoice);$i++)
+        {
+            $row = mysqli_fetch_assoc($Result_selectallinvoice);
+            $data_list[$i]['invoiceid']=$row['invoiceid'];
+            $data_list[$i]['billno']=$row['billno'];
+            $data_list[$i]['billdatetime']=$row['billdatetime'];
+            $data_list[$i]['expirydate']=$row['expirydate'];
+            $data_list[$i]['customerid']=$row['customerid'];
+            $data_list[$i]['model']=$row['model'];
+            $data_list[$i]['imei']=$row['imei'];
+            $data_list[$i]['phonelock']=$row['phonelock'];
+            $data_list[$i]['amount']=$row['amount'];
+            $data_list[$i]['actualamount']=$row['actualamount'];
+            $data_list[$i]['status']=$row['status'];
+            $Sql_selectname="Select ic,name FROM tblcustomer where customerid='".$row['customerid']."'";
+            $Result_selectname=mysqli_query($Link,$Sql_selectname);
+            $row=mysqli_fetch_assoc($Result_selectname);
+            $data_list[$i]['ic']=$row['ic'];
+            $data_list[$i]['name']=$row['name'];
+        }
+        echo json_encode($data_list);
+    }
+    else
+    {
+        echo json_encode("There are no record in the database.");
+    }    
+}
+else if($_POST['action']=="viewallcompleteinvoice")
+{
+    $data_list=array();
+    $Sql_selectallinvoice="Select * FROM tblinvoice where status='C'";
+    $Result_selectallinvoice=mysqli_query($Link,$Sql_selectallinvoice);
+    if(mysqli_num_rows($Result_selectallinvoice)>0)
+    {
+        for($i=0;$i<mysqli_num_rows($Result_selectallinvoice);$i++)
+        {
+            $row = mysqli_fetch_assoc($Result_selectallinvoice);
+            $data_list[$i]['invoiceid']=$row['invoiceid'];
+            $data_list[$i]['billno']=$row['billno'];
+            $data_list[$i]['billdatetime']=$row['billdatetime'];
+            $data_list[$i]['expirydate']=$row['expirydate'];
+            $data_list[$i]['customerid']=$row['customerid'];
+            $data_list[$i]['model']=$row['model'];
+            $data_list[$i]['imei']=$row['imei'];
+            $data_list[$i]['phonelock']=$row['phonelock'];
+            $data_list[$i]['amount']=$row['amount'];
+            $data_list[$i]['actualamount']=$row['actualamount'];
+            $data_list[$i]['status']=$row['status'];
+            $Sql_selectname="Select ic,name FROM tblcustomer where customerid='".$row['customerid']."'";
+            $Result_selectname=mysqli_query($Link,$Sql_selectname);
+            $row=mysqli_fetch_assoc($Result_selectname);
+            $data_list[$i]['ic']=$row['ic'];
+            $data_list[$i]['name']=$row['name'];
+        }
+        echo json_encode($data_list);
+    }
+    else
+    {
+        echo json_encode("There are no record in the database.");
+    }    
+}
+else if($_POST['action']=="viewallvoidinvoice")
+{
+    $data_list=array();
+    $Sql_selectallinvoice="Select * FROM tblinvoice where status='V'";
     $Result_selectallinvoice=mysqli_query($Link,$Sql_selectallinvoice);
     if(mysqli_num_rows($Result_selectallinvoice)>0)
     {
@@ -121,7 +223,7 @@ else if($_POST['action']=="editinvoice")
                                              phonelock='".$_POST['phonelock']."',
                                              amount='".$_POST['amount']."',
                                              actualamount='".$_POST['actualamount']."',
-                                             status='C'
+                                             status='".$_POST['status']."'
                                              where invoiceid='".$_POST['invoiceid']."'";
     $Result_editinvoice=mysqli_query($Link,$Sql_editinvoice);
     if($Result_editinvoice)
@@ -131,6 +233,21 @@ else if($_POST['action']=="editinvoice")
     else
     {
         $data_list['Message']="The data of invoice is failed to be edited!";
+    }
+    echo json_encode($data_list);
+}
+else if($_POST['action']=="deleteinvoice")
+{
+    $data_list=array();
+    $Sql_editinvoice="Update tblinvoice SET status='V' where invoiceid='".$_POST['invoiceid']."'";
+    $Result_editinvoice=mysqli_query($Link,$Sql_editinvoice);
+    if($Result_editinvoice)
+    {
+        $data_list['Message']="The data of invoice is deleted successfully!";
+    }
+    else
+    {
+        $data_list['Message']="The data of invoice is failed to be deleted!";
     }
     echo json_encode($data_list);
 }

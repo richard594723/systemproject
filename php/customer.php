@@ -36,7 +36,7 @@ if($_POST['action']=="addcustomer")
         }
         else
         {
-            $data_list['Message']=$Sql_insertcustomer;
+            $data_list['Message']="Fail";
         }
 	}
     echo json_encode($data_list);
@@ -45,7 +45,7 @@ if($_POST['action']=="addcustomer")
 else if($_POST['action']=="viewallcustomer")
 {
     $data_list=array();
-    $Sql_selectallcustomer="Select * FROM tblcustomer";
+    $Sql_selectallcustomer="Select * FROM tblcustomer where status<>'D'";
     $Result_selectallcustomer=mysqli_query($Link,$Sql_selectallcustomer);
     if(mysqli_num_rows($Result_selectallcustomer)>0)
     {
@@ -195,6 +195,21 @@ else if($_POST['action']=="editcustomer")
     else
     {
         $data_list['Message']="The data of customer is failed to be edited!";
+    }
+    echo json_encode($data_list);
+}
+else if($_POST['action']=="deletecustomer")
+{
+    $data_list=array();
+    $Sql_deletecustomer="Update tblcustomer SET status='D' where customerid='".$_POST['customerid']."'";
+    $Result_deletecustomer=mysqli_query($Link,$Sql_deletecustomer);
+    if($Result_deletecustomer)
+    {
+        $data_list['Message']="The data of customer is deleted successfully!";
+    }
+    else
+    {
+        $data_list['Message']="The data of customer is failed to be deleted!";
     }
     echo json_encode($data_list);
 }

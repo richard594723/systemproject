@@ -4,6 +4,8 @@ var yValueGreen = Array.apply(null, Array(monthChar.length)).map(Number.prototyp
 var yValueRed = Array.apply(null, Array(monthChar.length)).map(Number.prototype.valueOf,0);
 var yValueGray = Array.apply(null, Array(monthChar.length)).map(Number.prototype.valueOf,0);
 var clickedNumber = 0;
+var clickedMonth = 0;
+var tempData = [];
 //Sales Chart data and chart
 const salesData = {
   labels: monthChar,
@@ -12,16 +14,22 @@ const salesData = {
       label: 'Expenses',
       data: yValueGreen,
       backgroundColor: "#48C9B0",
+      hoverBorderWidth: 2,
+      hoverBorderColor: 'yellow',
     },
     {
       label: 'Net Profit',
       data: yValueRed,
       backgroundColor: "#EC7063",
+      hoverBorderWidth: 2,
+      hoverBorderColor: 'yellow',
     },
     {
       label: 'Void',
       data: yValueGray,
       backgroundColor: "#808080",
+      hoverBorderWidth: 2,
+      hoverBorderColor: 'yellow',
     }
   ]
 };
@@ -35,6 +43,7 @@ const chart_config = {
       display: false,
       text: "Report"
     },
+    responsive: true,
     scales:{
       xAxes:[{
         stacked: true
@@ -49,7 +58,7 @@ const chart_config = {
 
 function changeForm(){
   $('#formContain').remove(); 
-  $('#formContainer').append('<div class="form-group form-inline" id="formContain"><button type="button" class="btn" onclick="recoverForm()"><svg href="./Icon/arrow-left-short.svg" width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"/></svg></button><span style="text-align: center;"><b> '+yearTxt.value+' '+monthChar[clickedNumber]+' </b></span></div>');
+  $('#formContainer').append('<div class="form-group form-inline" id="formContain"><button type="button" class="btn" onclick="recoverForm()"><svg href="./Icon/arrow-left-short.svg" width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16"><path fill-rule="evenodd" d="M12 8a.5.5 0 0 1-.5.5H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5a.5.5 0 0 1 .5.5z"/></svg></button><span style="text-align: center;"><span id="formTitle" style="font-weight: bold;" onclick="backToMonth()"> '+yearTxt.value+' '+monthChar[clickedNumber]+' </span></span></div>');
 }
 
 function recoverForm(){
@@ -60,10 +69,11 @@ function recoverForm(){
 }
 
 function clickHandler(click){
-  const points = salesChart.getElementsAtEventForMode(click, 'nearest', {intersect:true }, true)
+  const points = salesChart.getElementsAtEventForMode(click, 'nearest', {intersect:true}, true)
   if(points.length){
     const firstPoint = points[0];
     clickedNumber = firstPoint._index;
+    clickedMonth = clickedNumber;
     changeForm();
     loadData(yearTxt.value, firstPoint._index);
   }
@@ -71,7 +81,7 @@ function clickHandler(click){
 
 var yearTxt = document.getElementById("inputYear");
 getYear();
-var salesChart = new Chart("salesChart", chart_config);
+const salesChart = new Chart(document.getElementById("salesChart"), chart_config);
 
 function getYear(yearSelected){
   $.ajax({
@@ -115,6 +125,7 @@ function loadData(yea,mon){
     dataType: "json",
     success: function(data) {
         var invoicedata = data;
+        tempData = invoicedata;
         var cases = Array.apply(null, Array(caseStatus.length)).map(Number.prototype.valueOf,0);
         if(mon == -1){
           yValueGreen = Array.apply(null, Array(monthChar.length)).map(Number.prototype.valueOf,0);
@@ -148,7 +159,6 @@ function loadData(yea,mon){
           yValueGray = Array.apply(null, Array(dayName.length)).map(Number.prototype.valueOf,0);
           for(let i=0; i<invoicedata.length; ++i){
             var tempDay = invoicedata[i]['billdatetime'];
-            console.log(tempDay);
             var str = tempDay.split('-')[2];
             if(invoicedata[i]['status']=='V'){
               yValueGray[parseInt(str)-1] += parseFloat(invoicedata[i]['amount']);
@@ -165,7 +175,7 @@ function loadData(yea,mon){
           salesData.datasets[2].data = yValueGray;
           chart_config.data = salesData;
           salesChart.update();
-          document.getElementById("salesChart").onclick = "";
+          document.getElementById("salesChart").onclick = dayClick;
         }
         var totalExpenses = 0.00;
         var totalSales = 0.00;
@@ -192,7 +202,84 @@ function loadData(yea,mon){
     },
     error: function(ajaxContext) {
         alert("Fail to load the chart.");
-
     }
 });
+}
+
+function backToMonth(){
+  document.getElementById('buttonBack').innerHTML = "";
+  document.getElementById('dayLabel').innerHTML = "";
+  var invoicedata = tempData;
+  var totalExpenses = 0.00;
+  var totalSales = 0.00;
+  var netProfit = 0.00;
+  var totalVoid = 0.00;
+  var cases = Array.apply(null, Array(caseStatus.length)).map(Number.prototype.valueOf,0);
+  for(let i=0; i<invoicedata.length; ++i){
+    if(invoicedata[i]['status']=='V'){
+      totalVoid += parseFloat(invoicedata[i]['amount']);
+    }
+    else{
+      totalExpenses += parseFloat(invoicedata[i]['actualamount']);
+      netProfit += (parseFloat(invoicedata[i]['amount'])-parseFloat(invoicedata[i]['actualamount']));
+    }
+    cases[caseStatus.indexOf(invoicedata[i]['status'])] += 1;
+  }
+  totalSales = totalVoid+totalExpenses+netProfit;
+  var totalCases = 0;
+  for(let i=0; i<cases.length; ++i){
+    totalCases += cases[i];
+  }
+  document.getElementById('totalSales').innerHTML = totalSales.toFixed(2);
+  document.getElementById('netProfit').innerHTML = netProfit.toFixed(2);
+  document.getElementById('totalExpenses').innerHTML = totalExpenses.toFixed(2);
+  document.getElementById('voidAmount').innerHTML = totalVoid.toFixed(2);
+  document.getElementById('totalCases').innerHTML = totalCases;
+  document.getElementById('totalCompleted').innerHTML = cases[caseStatus.indexOf('C')];
+  document.getElementById('totalPending').innerHTML = cases[caseStatus.indexOf('P')];
+  document.getElementById('totalVoid').innerHTML = cases[caseStatus.indexOf('V')];
+}
+
+function dayClick(click){
+  const points = salesChart.getElementsAtEventForMode(click, 'nearest', {intersect:true}, true);
+  if(points.length){
+    var totalExpenses = 0.00;
+    var totalSales = 0.00;
+    var netProfit = 0.00;
+    var totalVoid = 0.00;
+    var cases = Array.apply(null, Array(caseStatus.length)).map(Number.prototype.valueOf,0);
+    firstPoint = points[0];
+    clickedNumber = firstPoint._index;
+    var invoicedata = tempData;
+    document.getElementById('dayLabel').innerHTML = ' on' + document.getElementById('formTitle').innerHTML + ' ' + (clickedNumber+1);
+    for(let i=0; i<invoicedata.length; ++i){
+      var tempMonth = invoicedata[i]['billdatetime'];
+      var str = tempMonth.split(' ')[0];
+      strDay = str.split('-')[2];
+      if(strDay==(clickedNumber+1)){
+        if(invoicedata[i]['status']=='V'){
+          totalVoid += parseFloat(invoicedata[i]['amount']);
+        }
+        else{
+          totalExpenses += parseFloat(invoicedata[i]['actualamount']);
+          netProfit += (parseFloat(invoicedata[i]['amount'])-parseFloat(invoicedata[i]['actualamount']));
+        }
+        cases[caseStatus.indexOf(invoicedata[i]['status'])] += 1;
+      }
+    }
+    totalSales = totalVoid+totalExpenses+netProfit;
+    var totalCases = 0;
+    for(let i=0; i<cases.length; ++i){
+      totalCases += cases[i];
+    }
+    document.getElementById('totalSales').innerHTML = totalSales.toFixed(2);
+    document.getElementById('netProfit').innerHTML = netProfit.toFixed(2);
+    document.getElementById('totalExpenses').innerHTML = totalExpenses.toFixed(2);
+    document.getElementById('voidAmount').innerHTML = totalVoid.toFixed(2);
+    document.getElementById('totalCases').innerHTML = totalCases;
+    document.getElementById('totalCompleted').innerHTML = cases[caseStatus.indexOf('C')];
+    document.getElementById('totalPending').innerHTML = cases[caseStatus.indexOf('P')];
+    document.getElementById('totalVoid').innerHTML = cases[caseStatus.indexOf('V')];
+
+  }
 }

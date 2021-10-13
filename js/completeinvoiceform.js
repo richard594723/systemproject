@@ -47,52 +47,33 @@ function getParameters() {
 
 }
 
-$.ajax({
-    type: 'post',
-    url: './php/customer.php',
-    data: { action: "viewallactivecustomer" },
-    dataType: "json",
-    success: function(data) {
-        var customerdata = data;
-        var table_content = "";
-        for (i = 0; i < customerdata.length; i++) {
-            table_content += "<tr><td class='text-center'>" + customerdata[i]['ic'] + "</td><td class='text-center'>" +
-                customerdata[i]['name'] + "</td><td class='text-center'><button type='button' onclick='selectic(" + '"' + customerdata[i]['customerid'] + '"' + "," + '"' + customerdata[i]['ic'] + '"' + "," + '"' + customerdata[i]['name'] + '"' + ")'><i class='fas fa-edit edit-icon'></i></button></td></tr>";
-        }
-        document.getElementById("table_content_customer").innerHTML = table_content;
-
-        $('#tablecustomer').DataTable({
-            "lengthChange": false
-        });
-
-
-
-    },
-    error: function(ajaxContext) {
-        alert("The action of view all customer is failed.");
-
-    }
-})
-
-function selectic(customerid, ic, name) {
-    document.getElementById("customerid").value = customerid;
-    document.getElementById("ic").value = ic;
-    document.getElementById("name").value = name;
-    $("#Modal").modal('hide');
-}
-
 $('#invoice_edit_form').on('submit', function(e) {
     e.preventDefault();
     var data = $('#invoice_edit_form').serialize();
-    data += "&action=editinvoice";
+    data += "&action=paytheinvoice";
     $.ajax({
         type: 'post',
         url: './php/invoice.php',
         data: data,
         dataType: "json",
         success: function(data) {
+            let urlString = window.location.href;
+
+            let paramString = urlString.split('?')[1];
+
+            let params_arr = paramString.split('&');
+            let parameter = [
+                []
+            ];
+            for (let i = 0; i < params_arr.length; i++) {
+
+                let pair = params_arr[i].split('=');
+                parameter[i][0] = pair[0];
+                parameter[i][1] = pair[1];
+
+            }
             alert(data['Message']);
-            window.location.href = "./invoiceaction.html";
+            window.location.href = "./viewinvoiceform.html?ID=" + parameter[0][1];
 
 
         },

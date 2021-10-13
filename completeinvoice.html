@@ -1,0 +1,68 @@
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Management</title>
+    <link rel="shortcut icon" href="#">
+    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="./css/fontawesome/css/fontawesome.css">
+    <link rel="stylesheet" type="text/css" href="./css/fontawesome/css/brands.css">
+    <link rel="stylesheet" type="text/css" href="./css/fontawesome/css/solid.css">
+    <link rel="stylesheet" type="text/css" href="css/datatable.css">
+    <link rel="stylesheet" type="text/css" href="css/base.css">
+
+
+
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div id="menubar"></div>
+        <div id="content" class="container-fluid flex-column justify-content-center">
+
+            <div class="row justify-content-center">
+                <table id="tableinvoice" class="table table-striped table-bordered table-sm col-12 p-0" cellspacing="0" style="max-width:1200px;">
+                    <thead>
+                        <tr>
+                            <th class="th-sm text-center">No.</th>
+                            <th class="th-sm text-center">Bill No</th>
+                            <th class="th-sm text-center">Bill Date/Time </th>
+                            <th class="th-sm text-center">Expiry Date</th>
+                            <th class="th-sm text-center">IC</th>
+                            <th class="th-sm text-center">Name</th>
+                            <th class="th-sm text-center">Model</th>
+                            <th class="th-sm text-center">Amount</th>
+                            <th class="th-sm text-center">Actual Amount</th>
+                            <th class="th-sm text-center">Status</th>
+                            <th class="th-sm text-center">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table_content">
+
+                    </tbody>
+
+                </table>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+</body>
+
+<script src="bootstrap/js/jquery.js"></script>
+<script>
+    $(function() {
+        $("#menubar").load("menubar.html");
+
+    });
+</script>
+<script src="./bootstrap/js/popper.js"></script>
+<script src="./bootstrap/js/bootstrap.js"></script>
+<script src="./js/datatable.js"></script>
+<script src="./js/completeinvoice.js"></script>
+
+
+</html>

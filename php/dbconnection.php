@@ -39,7 +39,8 @@ $Tables = array(
 		phonelock VARCHAR(50),
 		amount Float(10),
 		actualamount Float(10),
-		status CHAR(1)
+		status CHAR(1),
+		paymentdate Date
 	)"
 );
 

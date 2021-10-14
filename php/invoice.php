@@ -31,6 +31,21 @@ if($_POST['action']=="submitinvoice")
         if($Result_insertinvoice)
         {
             $data_list['Message']="Success";
+            $Sql_selectspecificinvoice="Select invoiceid FROM tblinvoice where billno='".$_POST['billno']."'";
+            $Result_selectspecificinvoice=mysqli_query($Link,$Sql_selectspecificinvoice);
+            if(mysqli_num_rows($Result_selectspecificinvoice)>0)
+            {
+                for($i=0;$i<mysqli_num_rows($Result_selectspecificinvoice);$i++)
+                {
+                    $row = mysqli_fetch_assoc($Result_selectspecificinvoice);
+                    $data_list['invoiceid']=$row['invoiceid'];
+    
+                }
+            }
+            else
+            {
+                echo json_encode("There are no such record in the database.");
+            }
         }
         else
         {
@@ -197,6 +212,7 @@ else if($_POST['action']=="viewspecificinvoice")
             $data_list[$i]['amount']=$row['amount'];
             $data_list[$i]['actualamount']=$row['actualamount'];
             $data_list[$i]['status']=$row['status'];
+            $data_list[$i]['paymentdate']=$row['paymentdate'];
             $Sql_selectname="Select ic,name FROM tblcustomer where customerid='".$row['customerid']."'";
             $Result_selectname=mysqli_query($Link,$Sql_selectname);
             $row=mysqli_fetch_assoc($Result_selectname);
@@ -222,7 +238,8 @@ else if($_POST['action']=="editinvoice")
                                              imei='".$_POST['imei']."',
                                              phonelock='".$_POST['phonelock']."',
                                              amount='".$_POST['amount']."',
-                                             actualamount='".$_POST['actualamount']."'
+                                             actualamount='".$_POST['actualamount']."',
+                                             status='".$_POST['showstatus']."'
                                              where invoiceid='".$_POST['invoiceid']."'";
     $Result_editinvoice=mysqli_query($Link,$Sql_editinvoice);
     if($Result_editinvoice)
@@ -321,8 +338,7 @@ else if($_POST['action']=="viewcustomercompleteinvoice")
 else if($_POST['action']=="paytheinvoice")
 {
     $data_list=array();
-    $Sql_editinvoice="Update tblinvoice SET status='C' AND paymentdate='".$_POST['paymentdate']."' 
-    where invoiceid='".$_POST['invoiceid']."'";
+    $Sql_editinvoice="Update tblinvoice SET status='C',paymentdate='".$_POST['paymentdate']."' where invoiceid='".$_POST['invoiceid']."'";
     $Result_editinvoice=mysqli_query($Link,$Sql_editinvoice);
     if($Result_editinvoice)
     {

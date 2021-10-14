@@ -37,6 +37,11 @@ function getParameters() {
             document.getElementById("actualamount").value = invoicedata[0]['actualamount'];
             document.getElementById("invoiceid").value = invoicedata[0]['invoiceid'];
             document.getElementById("customerid").value = invoicedata[0]['customerid'];
+            if (invoicedata[0]['status'] == "P" || invoicedata[0]['status'] == "V") {
+                document.getElementById("showstatus").style.display = "block";
+                document.getElementById("showstatus").value = invoicedata[0]['status'];
+            }
+
 
         },
         error: function(ajaxContext) {

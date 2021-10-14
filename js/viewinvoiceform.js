@@ -33,6 +33,14 @@ function getParameters() {
             document.getElementById("imei").innerHTML = invoicedata[0]['imei'];
             document.getElementById("phonelock").innerHTML = invoicedata[0]['phonelock'];
             document.getElementById("amount").innerHTML = invoicedata[0]['amount'];
+            document.getElementById("amount").innerHTML = invoicedata[0]['amount'];
+            if (invoicedata[0]['status'] != "C") {
+                document.getElementById("payment").style.display = "none";
+
+
+            } else {
+                document.getElementById("paymentdate").innerHTML = invoicedata[0]['paymentdate'];
+            }
 
         },
         error: function(ajaxContext) {

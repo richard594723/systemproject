@@ -83,7 +83,7 @@ $('#invoice_form').on('submit', function(e) {
             success: function(data) {
                 if (data['Message'] == "Success") {
                     alert("The data is successfully added!");
-                    location.reload();
+                    location.href = "viewinvoiceform.html?ID=" + data['invoiceid'];
                 }
 
 

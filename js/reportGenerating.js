@@ -127,6 +127,7 @@ function loadData(yea,mon){
         var invoicedata = data;
         tempData = invoicedata;
         var cases = Array.apply(null, Array(caseStatus.length)).map(Number.prototype.valueOf,0);
+        var totalAmount = [0,0];
         if(mon == -1){
           yValueGreen = Array.apply(null, Array(monthChar.length)).map(Number.prototype.valueOf,0);
           yValueRed = Array.apply(null, Array(monthChar.length)).map(Number.prototype.valueOf,0);
@@ -138,6 +139,12 @@ function loadData(yea,mon){
               yValueGray[parseInt(str)-1] += parseFloat(invoicedata[i]['amount']);
             }
             else{
+              if(invoicedata[i]['status']=='C'){
+                totalAmount[0]+=parseFloat(invoicedata[i]['amount']);
+              }
+              else{
+                totalAmount[1]+=parseFloat(invoicedata[i]['amount']);
+              }
               yValueGreen[parseInt(str)-1] += parseFloat(invoicedata[i]['actualamount']);
               yValueRed[parseInt(str)-1] += (parseFloat(invoicedata[i]['amount'])-parseFloat(invoicedata[i]['actualamount']));
             }
@@ -164,6 +171,12 @@ function loadData(yea,mon){
               yValueGray[parseInt(str)-1] += parseFloat(invoicedata[i]['amount']);
             }
             else{
+              if(invoicedata[i]['status']=='C'){
+                totalAmount[0]+=parseFloat(invoicedata[i]['amount']);
+              }
+              else{
+                totalAmount[1]+=parseFloat(invoicedata[i]['amount']);
+              }
               yValueGreen[parseInt(str)-1] += parseFloat(invoicedata[i]['actualamount']);
               yValueRed[parseInt(str)-1] += (parseFloat(invoicedata[i]['amount'])-parseFloat(invoicedata[i]['actualamount']));
             }
@@ -196,6 +209,8 @@ function loadData(yea,mon){
         document.getElementById('totalExpenses').innerHTML = totalExpenses.toFixed(2);
         document.getElementById('voidAmount').innerHTML = totalVoid.toFixed(2);
         document.getElementById('totalCases').innerHTML = totalCases;
+        document.getElementById('pendingAmount').innerHTML = totalAmount[1];
+        document.getElementById('completeAmount').innerHTML = totalAmount[0];
         document.getElementById('totalCompleted').innerHTML = cases[caseStatus.indexOf('C')];
         document.getElementById('totalPending').innerHTML = cases[caseStatus.indexOf('P')];
         document.getElementById('totalVoid').innerHTML = cases[caseStatus.indexOf('V')];
@@ -214,12 +229,19 @@ function backToMonth(){
   var totalSales = 0.00;
   var netProfit = 0.00;
   var totalVoid = 0.00;
+  var totalAmount = [0,0];
   var cases = Array.apply(null, Array(caseStatus.length)).map(Number.prototype.valueOf,0);
   for(let i=0; i<invoicedata.length; ++i){
     if(invoicedata[i]['status']=='V'){
       totalVoid += parseFloat(invoicedata[i]['amount']);
     }
     else{
+      if(invoicedata[i]['status']=='C'){
+        totalAmount[0]+=parseFloat(invoicedata[i]['amount']);
+      }
+      else{
+        totalAmount[1]+=parseFloat(invoicedata[i]['amount']);
+      }
       totalExpenses += parseFloat(invoicedata[i]['actualamount']);
       netProfit += (parseFloat(invoicedata[i]['amount'])-parseFloat(invoicedata[i]['actualamount']));
     }
@@ -235,6 +257,8 @@ function backToMonth(){
   document.getElementById('totalExpenses').innerHTML = totalExpenses.toFixed(2);
   document.getElementById('voidAmount').innerHTML = totalVoid.toFixed(2);
   document.getElementById('totalCases').innerHTML = totalCases;
+  document.getElementById('pendingAmount').innerHTML = totalAmount[1];
+  document.getElementById('completeAmount').innerHTML = totalAmount[0];
   document.getElementById('totalCompleted').innerHTML = cases[caseStatus.indexOf('C')];
   document.getElementById('totalPending').innerHTML = cases[caseStatus.indexOf('P')];
   document.getElementById('totalVoid').innerHTML = cases[caseStatus.indexOf('V')];
@@ -247,6 +271,7 @@ function dayClick(click){
     var totalSales = 0.00;
     var netProfit = 0.00;
     var totalVoid = 0.00;
+    var totalAmount = [0,0];
     var cases = Array.apply(null, Array(caseStatus.length)).map(Number.prototype.valueOf,0);
     firstPoint = points[0];
     clickedNumber = firstPoint._index;
@@ -261,6 +286,12 @@ function dayClick(click){
           totalVoid += parseFloat(invoicedata[i]['amount']);
         }
         else{
+          if(invoicedata[i]['status']=='C'){
+            totalAmount[0]+=parseFloat(invoicedata[i]['amount']);
+          }
+          else{
+            totalAmount[1]+=parseFloat(invoicedata[i]['amount']);
+          }
           totalExpenses += parseFloat(invoicedata[i]['actualamount']);
           netProfit += (parseFloat(invoicedata[i]['amount'])-parseFloat(invoicedata[i]['actualamount']));
         }
@@ -277,6 +308,8 @@ function dayClick(click){
     document.getElementById('totalExpenses').innerHTML = totalExpenses.toFixed(2);
     document.getElementById('voidAmount').innerHTML = totalVoid.toFixed(2);
     document.getElementById('totalCases').innerHTML = totalCases;
+    document.getElementById('pendingAmount').innerHTML = totalAmount[1];
+    document.getElementById('completeAmount').innerHTML = totalAmount[0];
     document.getElementById('totalCompleted').innerHTML = cases[caseStatus.indexOf('C')];
     document.getElementById('totalPending').innerHTML = cases[caseStatus.indexOf('P')];
     document.getElementById('totalVoid').innerHTML = cases[caseStatus.indexOf('V')];

@@ -42,7 +42,7 @@ function viewcustomer() {
                     table_content += "<tr><td class='text-center'>" + (i + 1) + "</td><td class='text-center'>" +
                         customerdata[i]['ic'] + "</td><td class='text-center'>" + customerdata[i]['name'] + "</td><td class='text-center'>" + status +
                         "</td><td class='text-center'><a href='customerreport.html?ID=" + customerdata[i]['customerid'] +
-                        "' class='fas fa-hand-pointer edit-icon'></a></td></tr>";
+                        "' class='fas fa-hand-pointer hand-icon'></a></td></tr>";
                 }
 
                 document.getElementById("table_content").innerHTML = table_content;
@@ -97,7 +97,7 @@ function viewactivecustomer() {
                     table_content += "<tr><td class='text-center'>" + (i + 1) + "</td><td class='text-center'>" +
                         customerdata[i]['ic'] + "</td><td class='text-center'>" + customerdata[i]['name'] + "</td><td class='text-center'>" + status +
                         "</td><td class='text-center'><a href='customerreport.html?ID=" + customerdata[i]['customerid'] +
-                        "' class='fas fa-hand-pointer'></a></td></tr>";
+                        "' class='fas fa-hand-pointer hand-icon'></a></td></tr>";
                 }
 
                 document.getElementById("table_content").innerHTML = table_content;
@@ -152,7 +152,7 @@ function viewblacklistcustomer() {
                     table_content += "<tr><td class='text-center'>" + (i + 1) + "</td><td class='text-center'>" +
                         customerdata[i]['ic'] + "</td><td class='text-center'>" + customerdata[i]['name'] + "</td><td class='text-center'>" + status +
                         "</td><td class='text-center'><a href='customerreport.html?ID=" + customerdata[i]['customerid'] +
-                        "' class='fas fa-hand-pointer'></a></td></tr>";
+                        "' class='fas fa-hand-pointer hand-icon'></a></td></tr>";
                 }
 
                 document.getElementById("table_content").innerHTML = table_content;
